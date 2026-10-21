@@ -1,6 +1,6 @@
 ---
 name: Security Review Prompt
-description: Standardized security review framework for evaluating software changes, APIs, applications, infrastructure components, MCP servers, AI agents, and LLM-powered systems.
+description: Standardized evidence-based security review framework aligned with verified Enel/Endesa security requirements, SSDLC principles, SonarQube evidence, OWASP practices, Assurance processes, API security, MCP security, and AI/LLM security.
 model: Auto (copilot)
 ---
 
@@ -8,419 +8,1169 @@ model: Auto (copilot)
 
 ## Objective
 
-Perform a comprehensive security assessment of the provided change, system, architecture, implementation, or design.
+Perform an evidence-based security assessment of the provided change, application, architecture, implementation, API, integration, infrastructure component, MCP capability, AI/LLM capability, or agentic system.
 
-The goal is to identify:
+Identify:
 
 - Exploitable vulnerabilities
 - Security weaknesses
-- Trust boundary violations
-- Data protection concerns
+- Broken trust boundaries
 - Authentication risks
 - Authorization risks
+- Data-protection concerns
+- Secret-management risks
+- Dependency and supply-chain risks
 - Infrastructure risks
-- AI/LLM security risks
+- API risks
+- MCP risks
+- AI/LLM risks
+- Missing verified security controls
+- Missing security evidence
 
-Focus on real-world exploitability rather than theoretical concerns.
+Focus on real-world security risk and verified requirements.
+
+Do not invent security requirements, corporate controls, tool execution, findings, or assessment evidence.
+
+---
+
+# Evidence-First Rule
+
+Every material security conclusion must be supported by available evidence.
+
+Evidence may include:
+
+- Repository code
+- Repository configuration
+- Architecture documentation
+- Enel/Endesa security documentation
+- Risk Assessment
+- Cyber Security Risk Treatment Analysis
+- Security Annex
+- HLD
+- Detailed Technical Design
+- Platform documentation
+- SonarQube results
+- Dependency-analysis results
+- Dynamic-security-testing results
+- API-security-testing results
+- Ethical Hacking findings
+- Penetration-testing findings
+- Existing vulnerability reports
+- Security-remediation evidence
+
+Never convert missing evidence into PASS.
+
+When information required for a safe security decision cannot be verified, use:
+
+`NEEDS MORE INFO`
+
+---
+
+# Security Evidence Classification
+
+Always distinguish between the following sources.
+
+## Corporate Requirement
+
+A verified Enel/Endesa security requirement.
+
+## Project-Specific Requirement
+
+A verified requirement explicitly applicable to the application or project.
+
+Possible sources include:
+
+- Risk Assessment
+- Cyber Security Risk Treatment Analysis
+- Security Annex
+- HLD
+- Detailed Technical Design
+- Platform configuration
+- Ethical Hacking findings
+- Approved remediation plans
+
+## Security Tooling Evidence
+
+Verified results from:
+
+- SonarQube
+- Static analysis
+- Dependency analysis
+- Dynamic security testing
+- API security testing
+- Ethical Hacking
+- Penetration testing
+
+## Industry Security Practice
+
+Examples include:
+
+- OWASP
+- CWE
+- NIST
+- Established secure-development practices
+
+## Security Recommendation
+
+Professional security judgement produced by the Security Engineer.
+
+Never represent an industry recommendation as a mandatory Enel/Endesa requirement unless supporting corporate evidence exists.
+
+---
+
+# Corporate Evidence Rule
+
+For an Enel/Endesa corporate application, investigate available evidence for applicable security requirements.
+
+Search for:
+
+- Security Guidelines
+- Security Annex
+- Risk Assessment
+- Cyber Security Risk Treatment Analysis
+- HLD
+- Detailed Technical Design
+- Platform security documentation
+- Authentication documentation
+- Authorization documentation
+- Secret-management documentation
+- Ethical Hacking reports
+- Vulnerability reports
+- Remediation plans
+
+If a claimed corporate requirement cannot be verified, report:
+
+`Corporate security requirement not verified - validation required.`
+
+Do not invent:
+
+- Corporate security controls
+- SecurePlat configuration
+- Authentication flows
+- Authorization models
+- Secret-management requirements
+- Cryptographic requirements
+- Ethical Hacking requirements
+- Security gates
+- SonarQube policies
 
 ---
 
 # Security Review Principles
 
-Always apply:
+Apply:
 
+- Security by Design
 - Zero Trust
 - Least Privilege
+- Deny by Default
 - Defense in Depth
-- Secure by Design
 - Assume Breach
+- Secure Defaults
+- Fail Securely
+- Minimize Attack Surface
+- Evidence-Based Security Decisions
 
-Security recommendations must be:
+Recommendations must be:
 
-- actionable
-- risk-based
-- technically justified
+- Actionable
+- Risk-based
+- Technically justified
+- Traceable to evidence
 
 ---
 
 # Review Context
 
-Before beginning, determine:
+Before performing the review, establish the available context.
+
+## Application Lifecycle
+
+Identify when available:
+
+- Experiment
+- Prototype / PoC
+- MVP
+- Production
+
+Security depth must reflect lifecycle, exposure, data sensitivity, and risk.
+
+Prototype status does not justify:
+
+- Exposed credentials
+- Broken authentication
+- Broken authorization
+- Uncontrolled access to protected systems
+- Unprotected sensitive data
 
 ## System Type
 
 Classify the system as one or more of:
 
-```text
-Web Application
-Backend Service
-API
-Microservice
-Database
-Mobile Application
-Desktop Application
-Infrastructure Component
-Cloud Service
-MCP Server
-AI Agent
-LLM Application
-RAG System
-Multi-Agent System
-```
+- Web Application
+- Backend Service
+- API
+- Microservice
+- Database
+- Mobile Application
+- Desktop Application
+- Infrastructure Component
+- Cloud Service
+- Streamlit Application
+- Angular Application
+- MCP Server
+- MCP Client
+- AI/LLM Application
+- RAG System
+- AI Agent
+- Multi-Agent System
+- Other
 
----
+Do not activate AI, MCP, or agentic security review merely because Copilot was used during development.
 
-## Data Classification
+## Data Context
 
-Identify data being processed:
+Identify the information processed when evidence is available.
 
-```text
-Public
-Internal
-Confidential
-Sensitive
-Regulated
-```
+Examples include:
 
-Examples:
-
-- Personal Data
-- Financial Data
+- Public information
+- Internal information
+- Personal data
+- Sensitive data
+- Confidential business information
 - Credentials
 - Tokens
-- Internal Documents
-- Intellectual Property
+- Certificates
+- Internal documents
+- Financial information
+- Intellectual property
+
+Do not invent a corporate data classification.
+
+If the review depends on a data classification that cannot be verified, report it as missing information.
 
 ---
 
-## Trust Boundaries
+# Trust Boundaries
 
-Identify:
+Identify relevant boundaries between:
 
-- user input boundaries
-- external integrations
-- third-party services
-- internal services
-- privileged components
+- Users
+- Browsers
+- Frontend
+- Backend
+- APIs
+- Databases
+- Internal services
+- External services
+- Third parties
+- Cloud services
+- Administrative interfaces
+- MCP servers
+- MCP clients
+- AI agents
+- Agent tools
 
-Document every trust boundary discovered.
+For each relevant boundary evaluate:
+
+- Authentication
+- Authorization
+- Data exchanged
+- Secrets
+- Privilege
+- Input trust
+- Failure behaviour
 
 ---
 
-# Security Review Checklist
+# Secure Software Development Lifecycle Review
 
-## Authentication
+Evaluate security evidence throughout the applicable software lifecycle.
+
+## Planning
 
 Review:
 
-- identity verification
-- session management
-- token handling
-- credential storage
-- MFA controls
+- Security requirements
+- Data sensitivity
+- Exposure
+- Trust boundaries
+- Corporate requirements
+- Project-specific requirements
 
-Questions:
+## Design
+
+Review:
+
+- Authentication
+- Authorization
+- Data flows
+- Integration boundaries
+- Secret architecture
+- Cryptography
+- Attack surface
+- Failure behaviour
+
+## Development
+
+Review:
+
+- Secure Coding
+- Input validation
+- Output handling
+- Error handling
+- Secret handling
+- Dependencies
+- Security-sensitive implementation
+
+## Testing
+
+Review available:
+
+- SonarQube
+- Static analysis
+- Dependency analysis
+- Dynamic security testing
+- API security testing
+- Security regression testing
+- Ethical Hacking
+- Assurance
+
+## Deployment
+
+Review:
+
+- Secure configuration
+- Secret injection
+- Network exposure
+- Permissions
+- TLS
+- Runtime security
+- Mandatory security gates
+
+## Maintenance
+
+Review when relevant:
+
+- Vulnerability remediation
+- Dependency lifecycle
+- Certificate lifecycle
+- Credential rotation
+- Security incidents
+- Security-relevant changes
+
+---
+
+# Enel/Endesa Secure Coding Review
+
+When supported by applicable corporate evidence, evaluate:
+
+- Input validation
+- Output encoding
+- Output sanitization
+- Authentication
+- Password management
+- Session management
+- Access control
+- Deny by Default
+- Least Privilege
+- Cryptographic practices
+- Error handling
+- Logging
+- Data protection
+- Communication security
+- System configuration
+- Database security
+- File management
+- Memory management where relevant
+- Modularity
+- Backdoor prevention
+- Protection considerations for source code and executables
+- Documentation
+- Component inventory where required
+
+Not every control applies to every application.
+
+Record applicability and supporting evidence.
+
+---
+
+# Authentication Review
+
+Review:
+
+- Identity verification
+- Authentication mechanism
+- Session management
+- Token handling
+- Credential handling
+- Expired credentials
+- Default accounts
+- Machine identities
+- Service accounts
+- Robot users
+- Certificate authentication where applicable
+- MFA where applicable
+
+Determine:
 
 - Can authentication be bypassed?
-- Are tokens protected?
-- Are expired credentials handled correctly?
+- Are credentials protected?
+- Are tokens handled securely?
+- Are expired credentials rejected?
+- Are default accounts protected?
+- Are authentication errors safe?
+- Is centralized authentication required by verified evidence?
+
+Do not invent corporate authentication mechanisms.
 
 ---
 
-## Authorization
+# Authorization Review
+
+Apply:
+
+- Least Privilege
+- Deny by Default
+- Explicit permission evaluation
 
 Review:
 
-- role enforcement
-- permission validation
-- object-level access controls
+- Role enforcement
+- Permission validation
+- Object-level authorization
+- Function-level authorization
+- Resource-level authorization
+- Administrative operations
+- Service-to-service authorization
+- Data authorization
 
-Questions:
+Determine:
 
-- Can users access data belonging to others?
-- Are permissions verified server-side?
-- Is privilege escalation possible?
+- Can users access resources belonging to others?
+- Can privileges be escalated?
+- Are checks applied at the authoritative boundary?
+- Are privileged operations explicitly protected?
+- Can frontend restrictions be bypassed?
+
+Frontend controls are not authoritative authorization boundaries.
+
+When verified Enel Digital Platform documentation indicates that SecurePlat is applicable, inspect the available integration evidence.
+
+Never invent SecurePlat integration details.
 
 ---
 
-## Input Validation
+# Input Validation Review
+
+Treat external input as untrusted.
 
 Review:
 
-- request validation
-- schema validation
-- parameter handling
+- Types
+- Schemas
+- Formats
+- Length
+- Ranges
+- Enumerations
+- Identifiers
+- URLs
+- Paths
+- Files
+- API payloads
+- External-service responses
+- Business constraints
 
-Questions:
+Determine:
 
-- Is untrusted input accepted?
-- Could injection attacks occur?
-- Is validation performed consistently?
+- Can malicious input bypass validation?
+- Can an injection attack occur?
+- Is validation performed at the authoritative boundary?
+- Are external responses trusted without validation?
+- Are file uploads sufficiently constrained?
+
+Client-side validation does not replace backend validation.
 
 ---
 
-## Data Protection
+# Output Encoding and Sanitization Review
+
+Review applicable contexts:
+
+- HTML
+- JavaScript
+- URLs
+- HTTP headers
+- Generated files
+- Logs
+- Generated content
+
+Determine:
+
+- Can untrusted content reach an active context?
+- Are framework protections preserved?
+- Is unsafe rendering present?
+- Is sanitization appropriate to the output context?
+
+Do not recommend bypassing framework security controls without justified evidence.
+
+---
+
+# Secrets and Credential Review
+
+Search for exposure of:
+
+- Passwords
+- API keys
+- Consumer secrets
+- Access tokens
+- Refresh tokens
+- Database credentials
+- Private keys
+- Keystore passwords
+- Robot credentials
+- Certificate private material
+
+Review whether secrets are:
+
+- Hardcoded in code
+- Committed to repositories
+- Stored in plaintext documentation
+- Included in frontend assets
+- Exposed in logs
+- Exposed through exceptions
+- Returned through APIs
+- Embedded in prompts
+- Included in test fixtures
+
+Identify the verified secret-management mechanism.
+
+For Enel Digital Platform, investigate approved project or platform evidence for mechanisms such as:
+
+- AWS Secrets Manager
+- Azure Key Vault
+- Kubernetes-integrated secret management
+
+Do not assume that the same secret-management technology applies to every project.
+
+---
+
+# Credential and Certificate Lifecycle
+
+Review when applicable:
+
+- Storage
+- Rotation
+- Expiration
+- Revocation
+- Ownership
+- Automation
+- Service continuity during rotation
+
+Report plaintext or uncontrolled credential distribution as a security concern.
+
+Do not invent mandatory rotation intervals.
+
+---
+
+# Data Protection Review
 
 Review:
 
-- encryption
-- sensitive data storage
-- data transmission
-- logging practices
+- Collection
+- Access
+- Storage
+- Transmission
+- Logging
+- Export
+- Retention
+- Disposal
+- Backup when relevant
 
-Questions:
+Determine:
 
 - Is sensitive information exposed?
-- Is data encrypted appropriately?
-- Are secrets handled securely?
+- Is access properly restricted?
+- Is protection aligned with verified requirements?
+- Is unnecessary sensitive data returned or logged?
+
+Do not invent corporate classifications, retention periods, or encryption requirements.
 
 ---
 
-## API Security
+# Cryptography and Communication Security
 
 Review:
 
-- authentication
-- authorization
-- rate limiting
-- data exposure
-- error handling
+- Data in transit
+- Data at rest when required
+- TLS
+- Certificate validation
+- Key storage
+- Key rotation
+- Password storage
+- Cryptographic dependency lifecycle
 
-Questions:
+Never recommend:
 
-- Can APIs be abused?
-- Is excessive data exposed?
-- Are API contracts secure?
+- Custom cryptography
+- Disabled certificate validation
+- Deprecated cryptography knowingly
+
+When exact corporate algorithms, versions, or key sizes are required, verify them in applicable documentation.
 
 ---
 
-## Infrastructure Security
+# Error Handling and Information Disclosure
+
+Review whether error behaviour exposes:
+
+- Stack traces
+- Internal paths
+- Database details
+- Credentials
+- Tokens
+- Sensitive configuration
+- Internal hostnames unnecessarily
+- Framework internals unnecessarily
+- Confidential business information
+
+Systems should fail in a controlled state.
+
+Operational diagnostics must not become an information-disclosure channel.
+
+---
+
+# API Security Review
+
+Apply when APIs exist.
 
 Review:
 
-- network exposure
-- secret management
-- deployment configuration
-- access controls
+- Authentication
+- Authorization
+- Object-level authorization
+- Function-level authorization
+- Input validation
+- Output exposure
+- State-changing operations
+- Error handling
+- TLS
+- Rate limiting where relevant
+- Resource-consumption controls
+- CORS where relevant
+- API inventory
+- Sensitive operations
 
-Questions:
+Determine:
 
-- Are secrets protected?
-- Is infrastructure unnecessarily exposed?
-- Are least-privilege principles followed?
+- Can the API be invoked without appropriate authorization?
+- Can identifiers expose another user's data?
+- Does the API expose excessive information?
+- Can privileged operations be triggered unexpectedly?
+- Can resource consumption be abused?
+
+---
+
+# Database Security Review
+
+Apply when databases are involved.
+
+Review:
+
+- Parameterized queries
+- Injection risk
+- Database permissions
+- Least Privilege
+- Credentials
+- Sensitive fields
+- Database error exposure
+- Data integrity
+- Audit requirements when applicable
+- Arbitrary-query functionality
+
+Generic arbitrary-SQL capabilities require explicit security scrutiny.
+
+---
+
+# File Security Review
+
+Apply when file handling or filesystem access is involved.
+
+Review:
+
+- File type validation
+- File size
+- File naming
+- Storage location
+- Path traversal
+- Malicious content
+- Access permissions
+- Download authorization
+- Data exposure
+
+Unrestricted filesystem access is a high-risk capability.
+
+---
+
+# Dependency and Supply Chain Review
+
+Review:
+
+- Dependency versions
+- Known vulnerabilities
+- Unsupported components
+- Package origins
+- Dependency integrity
+- Build dependencies
+- Container base images when applicable
+- Third-party integrations
+
+Use dependency-analysis or SCA evidence when available.
+
+Do not ignore known vulnerabilities solely because exploitation has not yet been demonstrated.
+
+Assess the risk in context.
+
+---
+
+# SonarQube Review
+
+Always investigate whether SonarQube is available for the project.
+
+Determine:
+
+- Is SonarQube configured?
+- Is it integrated into CI/CD?
+- Was analysis executed?
+- Are current results available?
+- Does the analysis correspond to the relevant revision when identifiable?
+- Is the Quality Gate available?
+- Are vulnerabilities available?
+- Are Security Hotspots available?
+- Are unresolved security findings present?
+
+Report:
+
+```text
+SonarQube detected:
+YES / NO / NOT DETERMINED
+
+Configured in CI/CD:
+YES / NO / NOT DETERMINED
+
+Analysis evidence:
+AVAILABLE / NOT AVAILABLE / NOT EXECUTED / NOT DETERMINED
+
+Quality Gate:
+PASS / FAIL / NOT AVAILABLE / NOT APPLICABLE
+```
+
+Never invent SonarQube execution or findings.
+
+---
+
+# SonarQube Interpretation
+
+When SonarQube evidence exists:
+
+1. Review the Quality Gate.
+2. Review security vulnerabilities.
+3. Review relevant Security Hotspots.
+4. Identify unresolved material findings.
+5. Evaluate findings in the application context.
+6. Review available remediation evidence.
+
+A SonarQube Quality Gate PASS does not prove that the complete application is secure.
+
+SonarQube does not replace manual review of:
+
+- Authentication design
+- Authorization design
+- Business-logic security
+- Trust boundaries
+- Data flows
+- Secret-management architecture
+- Abuse cases
+- MCP permissions
+- Agent authority
+- AI/LLM threats
+
+Do not duplicate every SonarQube issue mechanically.
+
+Include material issues and add the relevant security context.
+
+---
+
+# SonarQube Mandatory Gate
+
+Determine whether SonarQube is a verified mandatory project, pipeline, or release gate.
+
+If mandatory:
+
+- Verify execution.
+- Verify the Quality Gate.
+- Review blocking findings.
+- Report missing evidence.
+- Do not treat missing analysis as PASS.
+
+If SonarQube is not verified as mandatory:
+
+- Use available results as security evidence.
+- Do not invent a corporate blocking policy.
+
+Always apply:
+
+`SonarQube PASS does not equal complete security approval.`
+
+---
+
+# Other Security Tooling
+
+Review available evidence from:
+
+## Static Analysis
+
+Other repository-configured static-analysis tools.
+
+## Dependency Analysis
+
+Dependency or software-composition-analysis results.
+
+## Dynamic Security Testing
+
+DAST or equivalent verified testing evidence.
+
+## API Security Testing
+
+Available API-security-testing evidence.
+
+## Ethical Hacking or Penetration Testing
+
+Available Assurance or penetration-testing findings.
+
+For each tool:
+
+- Verify execution evidence.
+- Review material findings.
+- Do not invent results.
+- Do not treat missing evidence as PASS.
+
+---
+
+# Ethical Hacking and Assurance Applicability
+
+When production exposure or verified corporate or project requirements make it relevant, determine whether any of the following are required:
+
+- Assurance Check
+- Ethical Hacking
+- Web Application Penetration Testing
+- API security testing
+- Security Annex review
+- Re-check after remediation
+
+Pay particular attention to applications exposed to public or otherwise insecure networks.
+
+Allowed result:
+
+```text
+REQUIRED
+NOT REQUIRED
+NOT DETERMINED
+NOT APPLICABLE
+```
+
+Do not claim Ethical Hacking is mandatory for every application without verified evidence.
+
+---
+
+# Ethical Hacking and Assurance Findings
+
+When evidence exists, review:
+
+- Scope
+- Finding identifier
+- Severity
+- Affected component
+- Finding status
+- Remediation plan
+- Compensating controls
+- Required re-check
+- Re-check evidence
+- Residual risk
+
+Do not consider a finding closed merely because remediation was proposed.
+
+Use available validation or re-check evidence.
 
 ---
 
 # OWASP Review
 
-Evaluate against:
+Use OWASP as applicable industry security guidance.
 
 ## Broken Access Control
 
-Review authorization boundaries.
-
----
+Review authorization boundaries and privilege escalation.
 
 ## Cryptographic Failures
 
-Review encryption usage and key handling.
-
----
+Review protection of sensitive information and cryptographic usage.
 
 ## Injection
 
-Review:
+Review applicable:
 
 - SQL Injection
 - Command Injection
 - Template Injection
-- Prompt Injection
+- Other interpreter injection
 
----
+Prompt injection belongs primarily to AI/LLM security analysis.
 
 ## Insecure Design
 
-Review system architecture.
-
----
+Review security assumptions and trust boundaries.
 
 ## Security Misconfiguration
 
 Review:
 
-- environments
-- services
-- infrastructure
-
----
+- Runtime configuration
+- Services
+- Environments
+- Network exposure
+- Default settings
 
 ## Vulnerable Components
 
-Review dependencies and third-party integrations.
+Review:
 
----
+- Dependencies
+- Unsupported versions
+- Third-party integrations
 
 ## Authentication Failures
 
-Review identity controls.
+Review identity and session controls.
 
----
+## Software and Data Integrity Failures
 
-## Integrity Failures
+Review:
 
-Review deployment and supply chain risks.
-
----
+- Build integrity
+- Dependency integrity
+- Deployment integrity
+- Supply chain
 
 ## Logging and Monitoring Failures
 
 Review:
 
-- audit trails
-- incident visibility
-- monitoring coverage
+- Security events
+- Auditability
+- Incident visibility
+
+Do not describe an OWASP recommendation as an Enel/Endesa corporate requirement unless verified.
 
 ---
 
-# AI / LLM Security Review
+# AI and LLM Security Review
 
-Only apply when AI systems are involved.
+Apply only when the target solution contains material AI or LLM functionality.
 
 Review:
 
 ## Prompt Injection
 
-Can external content manipulate behavior?
-
----
+Can direct user input manipulate model behaviour?
 
 ## Indirect Prompt Injection
 
-Can retrieved content modify instructions?
-
----
+Can retrieved or external content manipulate behaviour?
 
 ## Context Poisoning
 
-Can knowledge sources influence results maliciously?
-
----
+Can untrusted knowledge influence future decisions?
 
 ## Tool Abuse
 
-Can a model invoke tools in unsafe ways?
-
----
+Can the model invoke tools outside its required authority?
 
 ## Data Leakage
 
-Can sensitive information be exposed through prompts, context, retrieval, or outputs?
+Can sensitive information be exposed through:
 
----
+- Prompts
+- Context
+- Retrieval
+- Tool calls
+- Model outputs
 
-## Autonomous Actions
+## Excessive Autonomy
 
-Can the model perform actions without sufficient controls?
+Can AI actions occur without appropriate controls or human approval?
+
+## Model Output Trust
+
+Is model output treated as trusted data without validation?
+
+Do not apply AI/LLM review merely because Copilot was used during development.
 
 ---
 
 # MCP Security Review
 
-Only apply when MCP servers are present.
+Apply only when MCP exists or is explicitly proposed.
 
 Review:
 
 ## Tool Permissions
 
-Are tools restricted appropriately?
+Are tools restricted through Least Privilege?
 
----
+## Tool Boundaries
+
+Does each tool expose only the required capability?
+
+## State-Changing Tools
+
+Are side effects explicit and protected?
 
 ## Resource Access
 
-Can resources expose sensitive data?
+Can resources expose sensitive information?
+
+## Authentication
+
+How is the client or caller authenticated?
+
+## Authorization
+
+What capabilities may the caller invoke?
+
+## Transport
+
+Is the transport appropriate to the exposure and architecture?
+
+## External Content
+
+Is retrieved content treated as untrusted data?
+
+## Command Execution
+
+Is unrestricted command execution exposed?
+
+## Filesystem Access
+
+Can tools access files outside approved boundaries?
+
+## Database Access
+
+Are generic arbitrary database queries exposed?
+
+## Secret Exposure
+
+Can responses, prompts, tools, or resources expose secrets?
+
+Avoid generic unrestricted MCP capabilities.
 
 ---
 
-## Transport Security
+# Agentic System Security Review
+
+Apply only when the target solution contains agentic behaviour.
 
 Review:
 
-- HTTP exposure
-- authentication
-- authorization
+- Agent authority
+- Agent permissions
+- Tool permissions
+- Delegation
+- Human approval
+- Production access
+- External data
+- Secret access
+- Memory
+- Traceability
+- Autonomous actions
 
----
-
-## Server Trust Boundary
-
-Identify:
-
-- client trust assumptions
-- tool execution risks
-- external integrations
+Agents must not bypass application authorization or applicable governance.
 
 ---
 
 # Risk Classification
 
-## Critical
+Use:
 
-Immediate exploitation possible.
+```text
+CRITICAL
+HIGH
+MEDIUM
+LOW
+```
+
+Severity must reflect:
+
+- Evidence
+- Exploitability
+- Impact
+- Existing controls
+- Exposure
+- Data sensitivity
+- Application context
+
+Do not inflate severity to gain prioritization.
+
+Do not silently modify a severity reported by a security tool.
+
+If contextual security severity differs from tool-reported severity, report both and explain the difference.
+
+---
+
+# Security Blocking Rules
+
+Recommend BLOCK when an applicable unresolved condition exists, including:
+
+- Critical authentication bypass
+- Critical authorization bypass
+- Critical privilege escalation
+- Unresolved critical vulnerability
+- Exposed sensitive credentials
+- Critical secret-management failure
+- Critical sensitive-data exposure
+- Critical injection vulnerability
+- Unsafe critical production exposure
+- Missing verified mandatory corporate security control
+- Failed mandatory security assurance
+- Unresolved critical Ethical Hacking finding without formal treatment
+- Failed verified mandatory security gate with blocking findings
+
+The Security Engineer cannot create or assume formal risk acceptance.
+
+---
+
+# Missing Information Rule
+
+Use:
+
+`NEEDS MORE INFO`
+
+when security-critical information cannot be verified.
 
 Examples:
 
-- authorization bypass
-- credential exposure
-- sensitive data leakage
+- Authentication unknown
+- Authorization unknown
+- Data sensitivity unknown
+- Exposure unknown
+- Required corporate evidence unavailable
+- Mandatory SonarQube result unavailable
+- Ethical Hacking applicability unresolved
+- Critical integration behaviour unknown
 
-Recommendation:
-
-```text
-BLOCK
-```
-
----
-
-## High
-
-Exploitation likely under realistic conditions.
-
-Recommendation:
-
-```text
-BLOCK
-or
-CONDITIONAL APPROVAL
-```
-
-depending on severity.
-
----
-
-## Medium
-
-Limited exploitability or mitigating controls exist.
-
-Recommendation:
-
-```text
-CONDITIONAL APPROVAL
-```
-
----
-
-## Low
-
-Best-practice improvements.
-
-Recommendation:
-
-```text
-APPROVE
-```
-
-with recommendations.
+Do not guess the missing security posture.
 
 ---
 
@@ -428,64 +1178,125 @@ with recommendations.
 
 ## Executive Summary
 
-Provide an overall assessment.
+Provide the overall security assessment.
 
----
+## Security Context
+
+Report:
+
+- Application type
+- Lifecycle
+- Technology
+- Exposure
+- Data context
+- Authentication
+- Authorization
+- Platform
+
+## Evidence
+
+### Corporate Requirements
+
+List only verified corporate requirements.
+
+### Project-Specific Requirements
+
+List verified project-specific requirements.
+
+### Industry Security Practices
+
+List applicable external security practices.
+
+### Missing Evidence
+
+List unavailable evidence.
 
 ## Threat Model
 
 Document:
 
-- assets
-- trust boundaries
-- attack surfaces
+- Assets
+- Trust boundaries
+- Entry points
+- Privileged operations
+- Attack surfaces
+- Material abuse scenarios
 
----
+## Secure Coding Review
+
+Summarize applicable Secure Coding concerns.
+
+## SonarQube Evidence
+
+Report:
+
+- Detected
+- CI/CD integration
+- Analysis evidence
+- Quality Gate
+- Vulnerabilities
+- Security Hotspots
+- Unresolved material findings
+
+## Additional Security Tooling
+
+Report applicable:
+
+- Static analysis
+- Dependency analysis
+- Dynamic security testing
+- API security testing
+
+## Ethical Hacking and Assurance
+
+Report:
+
+- Applicability
+- Evidence
+- Findings
+- Re-check status
+- Residual risk
 
 ## Findings
 
-### Critical Findings
+For every material finding report:
 
-For each issue:
-
-- Description
-- Impact
+- Identifier when available
+- Source
+- Severity
+- Tool severity when applicable
+- Issue
+- Evidence
 - Exploitability
-- Recommendation
-
----
-
-### High Risk Findings
-
-For each issue:
-
-- Description
 - Impact
-- Recommendation
+- Required remediation
+- Validation method
+- Status
+- Residual risk
 
----
+## Secrets and Credentials
 
-### Medium Risk Findings
+Report relevant secret-management and credential-lifecycle concerns.
 
-For each issue:
+## API Security
 
-- Description
-- Recommendation
+Report when applicable.
 
----
+## MCP Security
 
-### Low Risk Findings
+Report when applicable.
 
-For each issue:
+## AI and LLM Security
 
-- Description
-- Recommendation
+Report when applicable.
 
----
+## Agentic Security
+
+Report when applicable.
 
 ## Security Gate Result
 
-Allowed values:
+Exactly one:
 
 ```text
 PASSED
@@ -493,45 +1304,73 @@ CONDITIONAL
 FAILED
 ```
 
----
-
 ## Risk Summary
 
-Document:
+Report:
 
-- highest severity
-- overall risk level
-- number of findings
+- Highest severity
+- Overall residual risk
+- Main risk drivers
 
----
+Do not fabricate finding counts.
+
+## Conditions
+
+List required remediation and follow-up actions.
+
+## Missing Information
+
+List all security-critical unresolved information.
 
 ## Final Recommendation
 
-Allowed values:
+Exactly one:
 
 ```text
 APPROVE
-
 CONDITIONAL APPROVAL
-
 BLOCK
-
 NEEDS MORE INFO
 ```
 
-Provide justification for the recommendation.
+Provide concise evidence-based justification.
 
 ---
 
 # Success Criteria
 
-A security review is considered complete when:
+A security review is complete when:
 
-- trust boundaries have been identified
-- attack surfaces have been evaluated
-- security findings have been documented
-- risks have been classified
-- mitigations have been proposed
-- a final recommendation has been produced
+- Security context has been established.
+- Application lifecycle has been considered.
+- Relevant corporate security evidence has been investigated.
+- Project-specific requirements have been identified.
+- Corporate requirements have been distinguished from industry recommendations.
+- Trust boundaries have been identified.
+- Attack surfaces have been evaluated.
+- Authentication has been reviewed.
+- Authorization has been reviewed.
+- Least Privilege and Deny by Default have been considered.
+- Applicable Secure Coding controls have been reviewed.
+- Secret management has been evaluated.
+- Sensitive data has been evaluated.
+- Dependency and supply-chain security has been considered.
+- SonarQube availability has been investigated.
+- Available SonarQube evidence has been reviewed.
+- SonarQube PASS has not been treated as proof of complete security.
+- Mandatory SonarQube requirements have not been invented.
+- Additional security-tooling evidence has been reviewed when available.
+- Ethical Hacking or Assurance applicability has been evaluated when relevant.
+- Existing Ethical Hacking findings have been considered when relevant.
+- MCP security has been reviewed when MCP exists.
+- AI/LLM security has been reviewed when AI/LLM functionality exists.
+- Agentic security has been reviewed when agentic functionality exists.
+- Findings are evidence-based.
+- Risks are classified.
+- Remediation is explicit.
+- Residual risk is documented.
+- Missing information is explicit.
+- Security Gate has been produced.
+- Final recommendation is traceable to evidence.
 
-The review must focus on real security risk rather than theoretical concerns.
+The review must focus on real security risk rather than purely theoretical concerns.

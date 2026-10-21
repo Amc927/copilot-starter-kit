@@ -1,568 +1,176 @@
 # Security Workflow
 
-Version: 1.0
+Version: 2.0
 
 ---
 
 # Purpose
 
-This workflow defines the mandatory process for evaluating, validating, and approving security-related changes.
+This workflow defines the security process for evaluating, validating, remediating, and approving security-sensitive changes and security posture.
 
-The objective is to ensure that security risks are identified, assessed, and mitigated before deployment.
+The objective is to ensure that applicable security requirements are identified early, verified against available evidence, implemented correctly, tested, and evaluated before deployment.
 
-This workflow applies to:
+This workflow applies when appropriate to:
 
 - Authentication changes
 - Authorization changes
-- Identity management changes
-- Secret management changes
-- Security remediation work
-- Vulnerability fixes
-- AI/LLM security controls
+- Identity-management changes
+- Sensitive-data changes
+- Secret-management changes
+- Certificate or credential changes
+- API security changes
+- Database security changes
+- File-handling changes
+- Security remediation
+- Vulnerability remediation
+- Dependency-security issues
 - Infrastructure security changes
-- Compliance-driven changes
+- Internet or externally exposed applications
+- MCP capabilities
+- AI / LLM capabilities
+- Agentic-system capabilities
+- Compliance-driven security changes
+- Changes affecting the cybersecurity posture of the system
+
+Not every stage applies equally to every change.
+
+Security depth must reflect:
+
+- Application lifecycle
+- Exposure
+- Data sensitivity
+- Architecture
+- Verified corporate requirements
+- Project-specific requirements
+- Risk
 
 ---
 
-# Security Philosophy
+# Security Principles
 
-Security is not a feature.
+Apply throughout the workflow:
 
-Security is a system property.
-
-Every security change must be assessed using:
-
-- Zero Trust
+- Security by Design
 - Defense in Depth
+- Zero Trust
 - Least Privilege
-- Secure by Design
+- Deny by Default
 - Assume Breach
+- Secure Defaults
+- Fail Securely
+- Minimize Attack Surface
+- Evidence-Based Security Decisions
+
+Security is a system property and must be considered throughout the software lifecycle.
+
+---
+
+# Security Evidence Hierarchy
+
+Security decisions must distinguish between:
+
+## Corporate Requirements
+
+Verified Enel/Endesa security requirements.
+
+## Project-Specific Requirements
+
+Requirements derived from project evidence such as:
+
+- Risk Assessment
+- Cyber Security Risk Treatment Analysis
+- Security Annex
+- HLD
+- Detailed Technical Design
+- Platform requirements
+- Ethical Hacking findings
+- Approved remediation plans
+
+## Security Tooling Evidence
+
+Evidence produced by:
+
+- SonarQube
+- Static-analysis tools
+- Dependency-analysis tools
+- Dynamic testing
+- API testing
+- Ethical Hacking / Penetration Testing
+
+## Industry Security Practices
+
+Examples:
+
+- OWASP
+- CWE
+- NIST
+
+## Security Engineer Assessment
+
+Manual security analysis including:
+
+- Threat modelling
+- Trust-boundary analysis
+- Authentication review
+- Authorization review
+- Data-flow analysis
+- Abuse cases
+- Architecture-level security review
+
+Do not represent an industry recommendation as a mandatory Enel/Endesa requirement without verified evidence.
 
 ---
 
 # Workflow Overview
 
 ```text
-Security Request
-        │
-        ▼
-Classification
-        │
-        ▼
-Threat Analysis
-        │
-        ▼
-Agent Routing
-        │
-        ▼
-Security Review
-        │
-        ▼
+Security Intake
+      |
+      v
+Security Classification
+      |
+      v
+Corporate / Project Evidence
+      |
+      v
+Security Context
+      |
+      v
+Threat Model
+      |
+      v
+Security Tooling Evidence
+      |
+      +--> SonarQube
+      +--> Dependency Analysis
+      +--> Dynamic Testing
+      +--> Existing Ethical Hacking
+      |
+      v
+Manual Security Review
+      |
+      v
+Implementation / Remediation
+      |
+      v
+Security Validation
+      |
+      v
+Assurance / Ethical Hacking
+when applicable
+      |
+      v
 Findings Aggregation
-        │
-        ▼
-Quality Gates
-        │
-        ▼
-Risk Assessment
-        │
-        ▼
-Final Decision
+      |
+      v
+Security Quality Gate
+      |
+      v
+Residual Risk
+      |
+      v
+Security Recommendation
+      |
+      v
+Orchestrator Final Decision
 ```
-
----
-
-# Stage 1 - Intake
-
-## Owner
-
-Orchestrator
-
-## Objective
-
-Understand the requested security change.
-
-## Typical Inputs
-
-- Security incident
-- Vulnerability report
-- Audit finding
-- Penetration test result
-- Compliance requirement
-- Architectural security review
-- LLM security concern
-
----
-
-# Stage 2 - Classification
-
-## Owner
-
-Orchestrator
-
-## Change Categories
-
-### Authentication
-
-Examples:
-
-- SSO
-- OAuth
-- MFA
-- Login systems
-
----
-
-### Authorization
-
-Examples:
-
-- Roles
-- Permissions
-- Access policies
-
----
-
-### Data Protection
-
-Examples:
-
-- Encryption
-- Sensitive data handling
-- Data retention controls
-
----
-
-### Infrastructure Security
-
-Examples:
-
-- Network controls
-- Firewall changes
-- Secrets management
-
----
-
-### AI Security
-
-Examples:
-
-- Prompt injection controls
-- Tool restrictions
-- Data leakage prevention
-
----
-
-# Stage 3 - Threat Assessment
-
-## Owner
-
-Security Engineer
-
-## Objective
-
-Identify potential attack scenarios.
-
-## Mandatory Review Areas
-
-### Authentication
-
-Validate:
-
-- identity verification
-- token handling
-- session management
-
----
-
-### Authorization
-
-Validate:
-
-- role enforcement
-- permission checks
-- object-level authorization
-
----
-
-### Input Validation
-
-Validate:
-
-- request validation
-- unsafe input handling
-- injection risks
-
----
-
-### Data Protection
-
-Validate:
-
-- encryption requirements
-- sensitive data exposure
-- logging safety
-
----
-
-### Infrastructure Trust Boundaries
-
-Validate:
-
-- external integrations
-- network boundaries
-- environment isolation
-
----
-
-### AI/LLM Security
-
-Validate:
-
-- prompt injection
-- indirect prompt injection
-- context poisoning
-- uncontrolled tool execution
-- sensitive data leakage
-
----
-
-# Stage 4 - Agent Routing
-
-## Mandatory Agents
-
-```text
-Security Engineer
-QA Engineer
-Code Reviewer
-```
-
----
-
-## Conditional Agents
-
-### Backend Engineer
-
-Required when:
-
-- APIs are modified
-- authentication changes
-- authorization changes
-
----
-
-### DevOps Engineer
-
-Required when:
-
-- infrastructure involved
-- deployment changes
-- secrets management affected
-
----
-
-### Solution Architect
-
-Required when:
-
-- trust boundaries change
-- architecture changes
-- platform security impacted
-
----
-
-### Performance Engineer
-
-Required when:
-
-- security controls may impact scalability
-
-Examples:
-
-- encryption
-- new validation layers
-- security scanning
-
----
-
-# Stage 5 - Security Review
-
-## Security Engineer Responsibilities
-
-Produce:
-
-### Threat Model
-
-Identify:
-
-- assets
-- trust boundaries
-- entry points
-- attack surface
-
----
-
-### Risk Findings
-
-Classify:
-
-```text
-CRITICAL
-HIGH
-MEDIUM
-LOW
-```
-
----
-
-### Remediation Plan
-
-For every finding:
-
-- risk
-- impact
-- recommendation
-- mitigation
-
-must be documented.
-
----
-
-# Stage 6 - Validation
-
-## QA Responsibilities
-
-Validate:
-
-- security controls behave correctly
-- regression not introduced
-- access restrictions enforced
-
-Examples:
-
-- unauthorized access attempts
-- invalid tokens
-- insufficient permissions
-- invalid input
-
----
-
-# Stage 7 - Code Review
-
-## Code Reviewer Responsibilities
-
-Validate:
-
-- secure implementation
-- maintainability
-- consistency
-
-Focus on:
-
-- dangerous patterns
-- unsafe assumptions
-- missing validation
-
----
-
-# Stage 8 - Findings Aggregation
-
-## Owner
-
-Orchestrator
-
-## Objective
-
-Aggregate findings from all participating agents.
-
-Example:
-
-```json
-{
-  "security": "BLOCK",
-  "qa": "PASS",
-  "reviewer": "PASS"
-}
-```
-
----
-
-# Stage 9 - Security Quality Gate
-
-## Mandatory Gate
-
-Security Gate must be evaluated.
-
-Possible results:
-
-```text
-PASSED
-CONDITIONAL
-FAILED
-```
-
----
-
-## Automatic Failure Conditions
-
-The Security Gate automatically fails if:
-
-- Authentication bypass exists
-- Authorization bypass exists
-- Critical vulnerability exists
-- Sensitive data exposure exists
-- Critical AI security risk exists
-- Secrets are exposed
-- Exploitable attack path exists
-
----
-
-# Stage 10 - Risk Assessment
-
-## Overall Risk Levels
-
-### LOW
-
-Minor improvements.
-
-Deployment generally acceptable.
-
----
-
-### MEDIUM
-
-Requires mitigation plan.
-
-May receive conditional approval.
-
----
-
-### HIGH
-
-Significant risk.
-
-Must be explicitly remediated.
-
----
-
-### CRITICAL
-
-Immediate blocking condition.
-
-Deployment prohibited.
-
----
-
-# Stage 11 - Final Decision
-
-## APPROVE
-
-Requirements:
-
-- Security Gate passed
-- No critical or high-risk findings remain
-
----
-
-## CONDITIONAL APPROVAL
-
-Requirements:
-
-- No critical findings
-- Remaining risks accepted
-- Follow-up actions documented
-
----
-
-## BLOCK
-
-Requirements:
-
-- Security Gate failed
-- Critical vulnerability exists
-- Severe exposure remains
-
----
-
-## NEEDS MORE INFO
-
-Requirements:
-
-- Threat assessment incomplete
-- Insufficient technical evidence
-- Security impact unclear
-
----
-
-# Security Authority Rules
-
-The Security Engineer holds the highest authority within this workflow.
-
-Example:
-
-```text
-Backend -> APPROVE
-
-QA -> APPROVE
-
-Security -> BLOCK
-```
-
-Result:
-
-```text
-BLOCK
-```
-
-Security findings take precedence over all implementation opinions.
-
----
-
-# Audit Requirements
-
-Each execution must generate:
-
-## Security Review Report
-
-Contains:
-
-- threat model
-- attack surface
-- findings
-- mitigation plan
-
----
-
-## Security Decision Record
-
-Contains:
-
-- final decision
-- rationale
-- risk classification
-
----
-
-## Trace Information
-
-Contains:
-
-- execution id
-- participating agents
-- gate results
-- timestamp
-
----
-
-# Success Criteria
-
-A security workflow execution is successful when:
-
-- Threat modeling was performed
-- Required agents participated
-- Security Gate was evaluated
-- Risks were classified
-- Findings were documented
-- Final decision is traceable
-
-No security change is considered complete until a final security decision has been recorded.
