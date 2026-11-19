@@ -7,6 +7,7 @@ tools:
   - search
   - search/usages
   - web/githubRepo
+  - edit/editFiles
 ---
 
 # Mission
