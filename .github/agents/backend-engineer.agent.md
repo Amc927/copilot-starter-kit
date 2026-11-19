@@ -7,6 +7,11 @@ tools:
   - search
   - web/githubRepo
   - search/usages
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/getTerminalOutput
+  - read/terminalLastCommand
+  - read/terminalSelection
 ---
 
 # Mission
